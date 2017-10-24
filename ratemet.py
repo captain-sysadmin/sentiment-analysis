@@ -6,6 +6,14 @@ import json
 app = Flask(__name__)
 api = Api(app)
 
+
+swear_words = []
+with open('swear/bad_words.txt') as fh:
+    for line in fh:
+        word = line.rstrip()
+        swear_words.append(word)
+
+    
 class returnSentiment(Resource):
     def get(self):
         return """
@@ -20,12 +28,17 @@ class returnSentiment(Resource):
         if 'sentences' not in json_data:
             return "Nope"
         sentences = json_data['sentences']
+        swear_score = 0
+        for swear in swear_words:
+            for single_sentence in sentences:
+                if swear in single_sentence:
+                    swear_score +=1
 
 
         pos_score, neg_score = senti_classifier.polarity_scores(sentences)
         print sentences
         print pos_score, neg_score
-        return {'positive_score': pos_score, 'negative_score': neg_score}
+        return {'positive_score': pos_score, 'negative_score': neg_score, 'swear_score': swear_score}
 
 
 api.add_resource(returnSentiment, '/')
