@@ -19,7 +19,10 @@ and if it's all ok, It'll reply with:
 {
     "negative_score": 1.125, 
     "positive_score": 0.0
+    "swear_score": 0
 }
 ```
 
 As you can see, it was a solidly negative example
+
+it also looks to see what swear words there are
