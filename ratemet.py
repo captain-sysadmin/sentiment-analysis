@@ -22,8 +22,6 @@ class returnSentiment(Resource):
         """
     def post(self):
         json_data = request.get_json(force=True)
-        #gloop = request.form['data']
-        #sentences = gloop.split('.')
         print json_data
         if 'sentences' not in json_data:
             return "Nope"
@@ -33,12 +31,18 @@ class returnSentiment(Resource):
             for single_sentence in sentences:
                 if swear in single_sentence:
                     swear_score +=1
+        if swear_score:
+            gloop = str(sentences)
+            words = gloop.split(' ')
+            print len(words)
+            percentage = (float(swear_score) / len(words)) *100.0
+
 
 
         pos_score, neg_score = senti_classifier.polarity_scores(sentences)
         print sentences
         print pos_score, neg_score
-        return {'positive_score': pos_score, 'negative_score': neg_score, 'swear_score': swear_score}
+        return {'positive_score': pos_score, 'negative_score': neg_score, 'swear_count': swear_score, 'swear_percentage': percentage}
 
 
 api.add_resource(returnSentiment, '/')
