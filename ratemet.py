@@ -27,6 +27,7 @@ class returnSentiment(Resource):
             return "Nope"
         sentences = json_data['sentences']
         swear_score = 0
+        percentage = 0
         for swear in swear_words:
             for single_sentence in sentences:
                 if swear in single_sentence:
@@ -36,8 +37,6 @@ class returnSentiment(Resource):
             words = gloop.split(' ')
             print len(words)
             percentage = (float(swear_score) / len(words)) *100.0
-
-
 
         pos_score, neg_score = senti_classifier.polarity_scores(sentences)
         print sentences
