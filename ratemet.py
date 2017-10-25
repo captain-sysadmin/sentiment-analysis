@@ -12,7 +12,13 @@ with open('swear/bad_words.txt') as fh:
     for line in fh:
         word = line.rstrip()
         swear_words.append(word)
-
+@app.after_request
+def after(response):
+    # todo with response
+    print response.status
+    print response.headers
+    print response.get_data()
+    return response
     
 class returnSentiment(Resource):
     def get(self):
