@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 from senti_classifier import senti_classifier
-import json
+import math
 
 app = Flask(__name__)
 api = Api(app)
@@ -43,6 +43,13 @@ class returnSentiment(Resource):
             words = gloop.split(' ')
             print len(words)
             percentage = (float(swear_score) / len(words)) *100.0
+            # Avert all ye eyes gentle folk, thar be monsters
+            percentage = float("{:.2f}".format(percentage)) 
+            # so dirty. I know there is a decimal module
+            # but, this a hack day and writing this comment
+            # took longer than this hack
+
+
 
         pos_score, neg_score = senti_classifier.polarity_scores(sentences)
         print sentences
